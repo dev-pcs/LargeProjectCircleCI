@@ -1,0 +1,28 @@
+# .circleci/config.yml
+version: 2.1
+jobs:
+  build-and-test:
+    macos:
+      xcode: 11.3.0
+    environment:
+      FL_OUTPUT_DIR: output
+    steps:
+      - checkout
+      
+      - run:
+          name: build and run tests
+          command: fastlane scan
+          enviroment: 
+           SCAN_DEVICE: iPhone 8
+           SCAN_SCHEME: LargeProjectCircleCI
+      - store_test_results:
+          path: output/scan
+      - store_test_results:
+          path: output
+         
+
+workflows:
+  version: 2.1
+  build-and-test:
+    jobs: 
+      - build-and-test
